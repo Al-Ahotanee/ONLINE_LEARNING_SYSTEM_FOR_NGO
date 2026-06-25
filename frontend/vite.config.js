@@ -10,11 +10,9 @@ export default defineConfig({
       output: {
         manualChunks: {
           react: ['react', 'react-dom'],
+          charts: ['chart.js', 'react-chartjs-2'],
         },
       },
     },
-  },
-  server: {
-    port: 5173,
   },
 });

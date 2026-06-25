@@ -1,11 +1,9 @@
 {
   "name": "ngo-training-backend",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "type": "module",
   "description": "Enterprise API for NGO Training LMS",
-  "engines": {
-    "node": ">=20.0.0"
-  },
+  "engines": { "node": ">=20.0.0" },
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js"
