@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchApi } from './api.js';
 import Dashboard from './Dashboard.jsx';
-
+import LandingPage from './LandingPage.jsx';
 // ==========================================
 // LOGIN PAGE
 // ==========================================
@@ -183,6 +183,7 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [appLoading, setAppLoading] = useState(true);
   const [sessionExpired, setSessionExpired] = useState(false);
+  const [showLanding, setShowLanding] = useState(true);
 
   useEffect(() => {
     try {
@@ -190,6 +191,7 @@ export default function App() {
       const storedToken = localStorage.getItem('ngo_token');
       if (storedUser && storedToken) {
         setUser(JSON.parse(storedUser));
+        setShowLanding(false);
       }
     } catch {
       localStorage.removeItem('ngo_user');
@@ -202,6 +204,7 @@ export default function App() {
     const handler = () => {
       setUser(null);
       setSessionExpired(true);
+      setShowLanding(false);
     };
     window.addEventListener('ngo:session-expired', handler);
     return () => window.removeEventListener('ngo:session-expired', handler);
@@ -211,12 +214,13 @@ export default function App() {
     localStorage.removeItem('ngo_token');
     localStorage.removeItem('ngo_user');
     setUser(null);
+    setShowLanding(true);
   };
 
   if (appLoading) {
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-        <svg className="animate-spin w-8 h-8 text-brand-400" fill="none" viewBox="0 0 24 24">
+        <svg className="animate-spin w-8 h-8 text-sky-400" fill="none" viewBox="0 0 24 24">
           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
         </svg>
@@ -231,6 +235,8 @@ export default function App() {
       )}
       {user ? (
         <Dashboard user={user} onLogout={handleLogout} />
+      ) : showLanding ? (
+        <LandingPage onEnter={() => setShowLanding(false)} />
       ) : (
         <LoginPage onLogin={(u) => { setUser(u); setSessionExpired(false); }} />
       )}
