@@ -5,7 +5,6 @@ services:
   - type: web
     name: ngo-lms-api
     runtime: node
-    region: frankfurt
     plan: free
     rootDir: backend
     buildCommand: npm install
